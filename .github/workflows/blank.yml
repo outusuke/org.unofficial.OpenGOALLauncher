@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+      - '*.*.*'
+
+jobs:
+  build:
+    name: "Build Flatpak"
+    runs-on: ubuntu-latest
+    container:
+      # GNOME runtime: the launcher needs GTK3 + WebKitGTK 4.1 (not in freedesktop)
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-50
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: OpenGOALLauncher.flatpak
+          manifest-path: org.unofficial.OpenGOALLauncher.yml
+          cache-key: flatpak-builder-${{ github.sha }}
+      - name: Upload temporary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: flatpak-bundle
+          path: OpenGOALLauncher.flatpak
+
+  release:
+    name: "Publish Release"
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: flatpak-bundle
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: OpenGOALLauncher.flatpak
+          generate_release_notes: true
+          body: |
+            Unofficial Flatpak of the OpenGOAL Launcher v2.11.1 (Jak and Daxter), repackaged from the official .deb.
+            You need your own copy of the game (ISO) to install it from the launcher.
+
+            Install:
+              flatpak install --user OpenGOALLauncher.flatpak
+              flatpak run org.unofficial.OpenGOALLauncher
+
+            Launcher data (downloaded OpenGOAL versions, game files, saves) lives in:
+              ~/.var/app/org.unofficial.OpenGOALLauncher/data/
