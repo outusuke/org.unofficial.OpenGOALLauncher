@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=OpenGOAL Launcher
+Comment=Launcher for the OpenGOAL project, Jak and Daxter PC port (unofficial Flatpak)
+Exec=OpenGOAL-Launcher
+Icon=org.unofficial.OpenGOALLauncher
+StartupWMClass=OpenGOAL-Launcher
+Terminal=false
+Type=Application
+Categories=Game;

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.unofficial.OpenGOALLauncher</id>
+  <name>OpenGOAL Launcher</name>
+  <summary>Launcher for the OpenGOAL project (requires your own game copy)</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <description>
+    <p>Unofficial Flatpak of the OpenGOAL Launcher, a frontend that downloads and manages OpenGOAL, the PC port of the Jak and Daxter games. It contains no game assets; you must supply your own copy of the game.</p>
+  </description>
+  <url type="homepage">https://github.com/open-goal/launcher</url>
+  <launchable type="desktop-id">org.unofficial.OpenGOALLauncher.desktop</launchable>
+  <releases>
+    <release version="2.11.1" date="2026-09-13"/>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

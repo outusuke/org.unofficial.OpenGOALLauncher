@@ -1,0 +1,36 @@
+app-id: org.unofficial.OpenGOALLauncher
+runtime: org.gnome.Platform
+runtime-version: '50'
+sdk: org.gnome.Sdk
+command: OpenGOAL-Launcher
+
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=x11
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --socket=pulseaudio
+  - --device=all
+
+modules:
+  - name: opengoal-launcher
+    buildsystem: simple
+    build-commands:
+      - ar x opengoal-launcher.deb data.tar.gz
+      - tar xzf data.tar.gz
+      - install -Dm755 usr/bin/OpenGOAL-Launcher /app/bin/OpenGOAL-Launcher
+      - install -Dm644 usr/share/icons/hicolor/32x32/apps/OpenGOAL-Launcher.png /app/share/icons/hicolor/32x32/apps/org.unofficial.OpenGOALLauncher.png
+      - install -Dm644 usr/share/icons/hicolor/128x128/apps/OpenGOAL-Launcher.png /app/share/icons/hicolor/128x128/apps/org.unofficial.OpenGOALLauncher.png
+      - install -Dm644 "usr/share/icons/hicolor/256x256@2/apps/OpenGOAL-Launcher.png" /app/share/icons/hicolor/256x256/apps/org.unofficial.OpenGOALLauncher.png
+      - install -Dm644 org.unofficial.OpenGOALLauncher.desktop /app/share/applications/org.unofficial.OpenGOALLauncher.desktop
+      - install -Dm644 org.unofficial.OpenGOALLauncher.metainfo.xml /app/share/metainfo/org.unofficial.OpenGOALLauncher.metainfo.xml
+    sources:
+      - type: file
+        url: https://github.com/open-goal/launcher/releases/download/v2.11.1/OpenGOAL-Launcher_2.11.1_amd64.deb
+        sha256: 2377fa20734c1b1415cccbdc1a9bcf492502f7546657dae779d823ccdc628cc5
+        dest-filename: opengoal-launcher.deb
+      - type: file
+        path: org.unofficial.OpenGOALLauncher.desktop
+      - type: file
+        path: org.unofficial.OpenGOALLauncher.metainfo.xml
